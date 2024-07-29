@@ -12,5 +12,13 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
+from auth import auth_bp
+from group import group_bp
+from ride import ride_bp
+
+app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(group_bp, url_prefix='/api')
+app.register_blueprint(ride_bp, url_prefix='/api')
+
 if __name__ == '__main__':
     app.run(debug=True)
