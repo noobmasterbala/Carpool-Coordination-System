@@ -22,6 +22,9 @@ class Group(db.Model):
     members = db.relationship('User', secondary='group_members')
     schedule = db.Column(db.String(100), nullable=False)
     max_capacity = db.Column(db.Integer, nullable=False)
+    created_by = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)  
+
+
 
 class Ride(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
