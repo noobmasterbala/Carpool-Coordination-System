@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models import db, Ride, Group, User
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from decorators import role_required
 
 ride_bp = Blueprint('ride', __name__)
 
 @ride_bp.route('/rides', methods=['POST'])
 @jwt_required()
+@role_required('driver')
 def schedule_ride():
     data = request.get_json()
     new_ride = Ride(
@@ -19,6 +21,7 @@ def schedule_ride():
 
 @ride_bp.route('/rides/<ride_id>/join', methods=['POST'])
 @jwt_required()
+@role_required('passenger')
 def join_ride(ride_id):
     user_identity = get_jwt_identity()
     user = User.query.get(user_identity['id'])

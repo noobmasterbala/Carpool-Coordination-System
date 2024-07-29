@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
 from models import db, Group, User
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from decorators import role_required
 
 group_bp = Blueprint('group', __name__)
 
 @group_bp.route('/groups', methods=['POST'])
 @jwt_required()
+@role_required('driver')
 def create_group():
     data = request.get_json()
     new_group = Group(
